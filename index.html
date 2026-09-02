@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21 — For My Love</title>
+<meta name="theme-color" content="#140b0f">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg:#10090c; --wine:#32141e; --wine2:#4b1d2a;
+  --cream:#f4eadc; --muted:#b8a8a0; --gold:#d8b36a; --rose:#b85c70;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:radial-gradient(circle at 50% 0%,#32131d 0,#10090c 48%,#080608 100%);
+  color:var(--cream); font-family:"Cormorant Garamond",serif; overflow-x:hidden;
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.16;
+  background-image:radial-gradient(#fff 0.6px,transparent .6px); background-size:7px 7px;
+}
+button{font:inherit}
+.screen{min-height:100svh; display:grid; place-items:center; padding:34px 20px; position:relative}
+.panel{width:min(900px,100%); text-align:center}
+.kicker{font:12px "DM Mono",monospace; letter-spacing:.28em; text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{margin:0;font-weight:600;line-height:.95}
+h1{font-size:clamp(64px,14vw,150px); margin:18px 0}
+h2{font-size:clamp(42px,8vw,82px); margin:18px 0 24px}
+h3{font-size:34px}
+p{font-size:clamp(20px,3vw,28px); line-height:1.35; color:#e6d8cf}
+.small{font-size:15px;color:var(--muted);font-family:"DM Mono",monospace;line-height:1.6}
+.gold{color:var(--gold)}
+.heart{color:var(--rose)}
+.enter{
+  border:1px solid rgba(216,179,106,.65); background:transparent;color:var(--cream);
+  padding:15px 28px; border-radius:999px; cursor:pointer; letter-spacing:.08em;
+  transition:.25s; margin-top:20px
+}
+.enter:hover{background:var(--gold);color:#160d0e;transform:translateY(-2px)}
+.fade{animation:fade .9s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.orbit{
+  width:220px;height:220px;border:1px solid rgba(216,179,106,.4);border-radius:50%;
+  margin:0 auto 25px;display:grid;place-items:center;position:relative;
+}
+.orbit:before,.orbit:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(184,92,112,.35)}
+.orbit:before{inset:18px}.orbit:after{inset:42px}
+.number{font-size:90px;color:var(--gold)}
+.scrollhint{position:absolute;bottom:22px;font:11px "DM Mono";letter-spacing:.2em;color:#8d7c76}
+
+.reveal{opacity:0;transform:translateY(30px);transition:1s}
+.reveal.show{opacity:1;transform:none}
+
+.child-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:30px auto;max-width:760px}
+.photo-card{background:#160c10;border:1px solid rgba(216,179,106,.28);padding:12px;box-shadow:0 20px 60px #0008}
+.photo-card img{width:100%;height:380px;object-fit:cover;display:block;filter:saturate(.9)}
+.photo-card:first-child img{object-position:center}
+.caption{padding:13px 5px 5px;font:12px "DM Mono";letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.meet{font-size:clamp(26px,4vw,40px);margin:18px auto;max-width:720px}
+
+.reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:850px;margin:30px auto}
+.reason{padding:20px 14px;border:1px solid #6c3b48;background:linear-gradient(145deg,#2b121a,#140b0f);min-height:100px;display:grid;place-items:center}
+.reason span{font-size:19px}
+
+.chat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:820px;margin:30px auto}
+.chat-grid img{width:100%;height:430px;object-fit:cover;object-position:top;border:1px solid #6b3b47;box-shadow:0 12px 35px #0008}
+
+.letter{
+  max-width:720px;margin:25px auto;padding:35px 30px;text-align:left;
+  background:linear-gradient(135deg,rgba(73,29,41,.8),rgba(22,12,16,.9));
+  border:1px solid rgba(216,179,106,.35);box-shadow:0 30px 80px #0009;
+}
+.letter p{font-size:23px}
+.signature{text-align:right;color:var(--gold);font-size:28px;margin-top:25px}
+
+.final{background:radial-gradient(circle at 50% 45%,#4b1c29 0,#160b10 48%,#070608 100%)}
+.final .panel{position:relative;z-index:2}
+.big-heart{font-size:100px;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:10}
+.confetti i{position:absolute;width:6px;height:16px;top:-30px;animation:fall linear forwards;opacity:.85}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+.next{margin-top:35px}
+.next button{background:none;border:0;color:var(--gold);font:13px "DM Mono";letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+
+@media(max-width:650px){
+  .child-grid,.chat-grid{grid-template-columns:1fr}
+  .photo-card img{height:390px}
+  .chat-grid img{height:470px}
+  .reasons{grid-template-columns:1fr 1fr}
+  .letter{padding:25px 20px}
+}
+</style>
+</head>
+<body>
+
+<section class="screen" id="home">
+  <div class="panel fade">
+    <div class="orbit"><div class="number">21</div></div>
+    <div class="kicker">for the boy who became my favourite person</div>
+    <h1>Happy Birthday,<br><span class="gold">my love.</span></h1>
+    <p>I couldn't be beside you at midnight.<br>So I made you a little place to open instead.</p>
+    <button class="enter" onclick="go('begin')">Open your birthday gift →</button>
+  </div>
+  <div class="scrollhint">A LITTLE BIRTHDAY STORY</div>
+</section>
+
+<section class="screen" id="begin">
+  <div class="panel reveal">
+    <div class="kicker">chapter one</div>
+    <h2>Before <span class="heart">us.</span></h2>
+    <p class="meet">There were two little people, living completely separate lives, with absolutely no idea that one day they would find each other.</p>
+    <div class="child-grid">
+      <div class="photo-card">
+        <img src="assets/liza-childhood.png" alt="Liza as a child">
+        <div class="caption">little me</div>
+      </div>
+      <div class="photo-card">
+        <img src="assets/jayden-childhood.png" alt="Jayden as a child">
+        <div class="caption">little you</div>
+      </div>
+    </div>
+    <p class="meet gold">Two tiny humans.<br>One future neither of them could imagine.</p>
+    <div class="next"><button onclick="go('reasons')">keep going ↓</button></div>
+  </div>
+</section>
+
+<section class="screen" id="reasons">
+  <div class="panel reveal">
+    <div class="kicker">chapter two</div>
+    <h2>21 little reasons.</h2>
+    <p>Not a complete list. I'd need approximately 21 lifetimes for that.</p>
+    <div class="reasons">
+      <div class="reason"><span>Your stupid jokes.</span></div>
+      <div class="reason"><span>The way you say <b>thango</b>.</span></div>
+      <div class="reason"><span>Your endless ragebaiting.</span></div>
+      <div class="reason"><span>How you make me laugh when I'm mad.</span></div>
+      <div class="reason"><span>Your “sollu ma”.</span></div>
+      <div class="reason"><span>Your voice.</span></div>
+      <div class="reason"><span>The way you care.</span></div>
+      <div class="reason"><span>Our ridiculous conversations.</span></div>
+      <div class="reason"><span>Our late-night goodbyes.</span></div>
+      <div class="reason"><span>Our “I love you”s.</span></div>
+      <div class="reason"><span>How you make distance feel smaller.</span></div>
+      <div class="reason"><span>How you are simply… you.</span></div>
+    </div>
+    <p class="gold">And reason number 21?</p>
+    <h3>You.</h3>
+    <div class="next"><button onclick="go('memories')">the little things ↓</button></div>
+  </div>
+</section>
+
+<section class="screen" id="memories">
+  <div class="panel reveal">
+    <div class="kicker">chapter three</div>
+    <h2>Our little pieces of life.</h2>
+    <p>Some of our sweetest moments aren't dramatic. They're just us being us.</p>
+    <div class="chat-grid">
+      <img src="assets/chat-1.png" alt="A chat between us">
+      <img src="assets/chat-2.png" alt="A chat between us">
+      <img src="assets/chat-3.png" alt="A chat between us">
+      <img src="assets/chat-4.png" alt="A chat between us">
+    </div>
+    <p class="gold">The best part?</p>
+    <p>We can turn an ordinary conversation into something I'll remember.</p>
+    <div class="next"><button onclick="go('letter')">one last thing ↓</button></div>
+  </div>
+</section>
+
+<section class="screen" id="letter">
+  <div class="panel reveal">
+    <div class="kicker">chapter four</div>
+    <h2>A letter for 21.</h2>
+    <div class="letter">
+      <p>My love,</p>
+      <p>I wish I could be beside you today. I wish I could see your face when you wake up, annoy you all day, steal a birthday hug and make you laugh until you tell me to stop.</p>
+      <p>I'm sorry I couldn't be there at midnight. I wanted to be. But even when I couldn't reach you, you were still the person in my thoughts when the clock passed 12.</p>
+      <p>I hope 21 is kind to you. I hope you grow into everything you've dreamed of becoming, and I hope you never forget how deeply you are loved.</p>
+      <p>Distance can steal a midnight from me. It cannot steal my love for you.</p>
+      <p>So here's to you, baby. To 21. To every stupid joke, every late-night conversation, every “I miss you”, every kiss sent through a screen — and to all the birthdays I hope I get to celebrate beside you someday.</p>
+      <div class="signature">Happy 21st, my thango. ❤️</div>
+    </div>
+    <button class="enter" onclick="finish()">Open the last page →</button>
+  </div>
+</section>
+
+<section class="screen final" id="final">
+  <div class="panel reveal">
+    <div class="big-heart">♥</div>
+    <div class="kicker">the last page</div>
+    <h2>21 looks good<br><span class="gold">on you.</span></h2>
+    <p>Happy birthday, Jayden.</p>
+    <p class="small">Now go have the birthday you deserve.<br>And yes, you are still legally required to let me annoy you.</p>
+    <p class="gold" style="margin-top:40px">I love you. Always.</p>
+  </div>
+</section>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+function go(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(x=>obs.observe(x));
+
+function finish(){
+  go('final');
+  const box=document.getElementById('confetti');
+  box.innerHTML='';
+  for(let i=0;i<90;i++){
+    const s=document.createElement('i');
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=(3+Math.random()*4)+'s';
+    s.style.animationDelay=(Math.random()*1.2)+'s';
+    s.style.transform='rotate('+Math.random()*360+'deg)';
+    s.style.background=['#d8b36a','#b85c70','#f4eadc','#7d4050'][Math.floor(Math.random()*4)];
+    box.appendChild(s);
+  }
+  setTimeout(()=>box.innerHTML='',8000);
+}
+</script>
+</body>
+</html>
